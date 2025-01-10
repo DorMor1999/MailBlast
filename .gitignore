@@ -1,2 +1,4 @@
 # private files
 PRIVATE_DETAILS.md
+.env
+__pycache__

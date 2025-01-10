@@ -1,0 +1,7 @@
+Flask==2.2.3
+Flask-RESTful==0.3.9
+Flask-SQLAlchemy==2.5.1
+sqlalchemy==1.4.46
+psycopg2-binary==2.9.5
+python-dotenv==1.0.0
+Werkzeug==2.2.3

@@ -8,18 +8,46 @@ from bcrypt import hashpw, gensalt, checkpw
 class Auth(Resource):
     def post(self):
         """
-        Handle both user signup and login depending on the 'action' query parameter,
-        with 'username' and 'password' provided in the request body.
+        Handles user signup and login functionality based on the 'action' query parameter.
+        
+        The 'action' query parameter determines the operation:
+        - 'signup': Registers a new user with the provided details in the request body.
+        - 'login': Authenticates an existing user with the provided credentials.
 
-        Supported actions:
-        - 'signup': Registers a new user.
-        - 'login': Authenticates an existing user.
+        Request Body:
+            - For 'signup':
+                - first_name (str): The first name of the user (required).
+                - last_name (str): The last name of the user (required).
+                - email (str): The user's email address (required, must be unique).
+                - password (str): The user's plain-text password (required).
+            - For 'login':
+                - email (str): The user's email address (required).
+                - password (str): The user's plain-text password (required).
+
+        Query Parameters:
+            - action (str): Specifies the operation ('signup' or 'login').
 
         Returns:
-        - 201: If signup is successful, returns a success message with user details.
-        - 200: If login is successful, returns a success message with user details.
-        - 400: If the 'action' parameter is missing or invalid, or if the required input fields are missing or invalid.
-        - 500: If an unexpected error occurs during the process.
+            - 201 Created:
+                - If 'signup' is successful, returns a success message with the user's email.
+            - 200 OK:
+                - If 'login' is successful, returns a success message with the user's ID and email.
+            - 400 Bad Request:
+                - If the 'action' query parameter is missing or invalid.
+                - If required input fields are missing or invalid.
+            - 401 Unauthorized:
+                - If the email or password provided during 'login' is incorrect.
+            - 409 Conflict:
+                - If the email provided during 'signup' already exists in the system.
+            - 500 Internal Server Error:
+                - If an unexpected error occurs during processing.
+
+        Side Effects:
+            - Adds a new user to the database (if 'signup' is successful).
+            - Validates user credentials against stored data (if 'login' is attempted).
+
+        Exceptions:
+            - Handles all unexpected exceptions gracefully and returns a generic error message.
         """
         
         try:

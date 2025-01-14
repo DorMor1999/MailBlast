@@ -8,5 +8,15 @@ class User(db.Model):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
 
+
     def __repr__(self):
-        return f"<User {self.username}>"
+        return f"<User user_id={self.user_id}, first_name={self.first_name}, last_name={self.last_name}, email={self.email}>"
+
+
+    def to_dict(self):
+        return {
+            'user_id': self.user_id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email
+        }

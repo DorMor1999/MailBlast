@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import request
 from utils.errors.input.error_input_string import create_error_string
-from services.db.user_db_op import get_user_by_email, add_new_user
+from services.db.users.db_op_auth import get_user_by_email, add_new_user
 from bcrypt import hashpw, gensalt, checkpw
 
 

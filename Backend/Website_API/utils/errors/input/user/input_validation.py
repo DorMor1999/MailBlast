@@ -38,7 +38,7 @@ def validate_input(input: str, check_type: str) -> bool:
     Returns True if the input passes the specified validation, otherwise False.
     If an invalid check_type is provided, returns False.
     """
-    if check_type == "first name" or check_type == "last name":
+    if check_type == "first_name" or check_type == "last_name":
         return not_empty_input(input)
     elif check_type == "email":
         return email_input(input)

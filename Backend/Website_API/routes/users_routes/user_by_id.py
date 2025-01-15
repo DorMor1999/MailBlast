@@ -8,7 +8,7 @@ from bcrypt import hashpw, gensalt
 class UserById(Resource):
     def get(self, user_id: int):
         """
-        Retrieve a specific user by their ID.
+        Retrieve a specific user by their ID (requires token).
 
         This function simulates the retrieval of a user by their unique identifier (`user_id`).
         If the user does not exist, an appropriate error message is returned with a 404 status code.

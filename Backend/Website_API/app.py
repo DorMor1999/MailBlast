@@ -2,8 +2,8 @@ import os
 from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
-from routes.users_routes import AllUsers, Auth, UserById
 from dotenv import load_dotenv
+from routes.users_routes.users_routes_resources import init_users_routes_resources
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -24,9 +24,9 @@ db = SQLAlchemy(app)
 # resources
 
 #user resources
-api.add_resource(AllUsers, "/api/users/")
-api.add_resource(Auth, "/api/users/auth/")
-api.add_resource(UserById, "/api/users/<int:user_id>")
+init_users_routes_resources(api)
+
+
 
 
 if __name__ == "__main__":

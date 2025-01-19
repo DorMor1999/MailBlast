@@ -64,17 +64,18 @@ Retrieves a specific user by their unique `user_id` (requires authentication).
 ---
 
 ### 4. **PATCH /api/users/<int:user_id>**
-Updates a specific user's information by their `user_id` (requires authentication).
+Updates a specific user's information by their `user_id` (requires token).
 
 #### URL Parameters:
 - `user_id` (integer): The unique identifier of the user to update.
 
 #### Request Body:
-- Any of the user's details (e.g., `first_name`, `last_name`, `email`) can be updated.
-  - Example:
-    - `first_name` (string): The updated first name of the user (optional).
-    - `last_name` (string): The updated last name of the user (optional).
-    - `email` (string): The updated email address of the user (optional).
+- `input_type` (string): The type of information to update. It can be one of the following:
+  - `first_name`: The updated first name of the user (optional).
+  - `last_name`: The updated last name of the user (optional).
+  - `email`: The updated email address of the user (optional).
+  - `password`: The updated password of the user (optional). The password will be hashed before saving.
+- `input` (string): The new value for the specified `input_type`.
 
 #### Responses:
 - **200 OK**: If the update is successful, returns the updated user data.
@@ -131,9 +132,38 @@ Updates a specific user's information by their `user_id` (requires authenticatio
     Content-Type: application/json
 
     {
-      "first_name": "John",
-      "last_name": "Doe",
-      "email": "john.doe@updated.com"
+      "input_type": "first_name",
+      "input": "John"
+    }
+    ```
+
+    ```bash
+    PATCH /api/users/1
+    Content-Type: application/json
+
+    {
+      "input_type": "last_name",
+      "input": "Doe"
+    }
+    ```
+
+    ```bash
+    PATCH /api/users/1
+    Content-Type: application/json
+
+    {
+      "input_type": "email",
+      "input": "john.doe@updated.com"
+    }
+    ```
+
+    ```bash
+    PATCH /api/users/1
+    Content-Type: application/json
+
+    {
+      "input_type": "password",
+      "input": "newPassword123"
     }
     ```
 

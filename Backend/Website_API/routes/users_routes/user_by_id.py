@@ -3,6 +3,7 @@ from flask import request
 from services.db.users.db_op_user_by_id import get_user_by_user_id, change_user_col
 from utils.errors.input.error_input_string import create_error_string
 from bcrypt import hashpw, gensalt
+from services.token.token_op import check_token
 
 
 class UserById(Resource):
@@ -22,13 +23,10 @@ class UserById(Resource):
             int: HTTP status code indicating the result of the operation.
         """
         try:
-            # Retrieve the Authorization token from the request headers
-            # token = request.headers.get("Authorization")
-            # if not token:
-            #     return {"message": "Access denied. Token required."}, 401
-
-            # Simulate retrieval of user (this should be replaced with actual logic)
-            # Example: user = User.query.get(user_id)
+            #check token
+            token_check = check_token(request.headers.get("Authorization"))
+            if token_check:
+                return token_check
 
             # check if user exist
             from models.user_model import User
@@ -58,10 +56,10 @@ class UserById(Resource):
             dict, int: A JSON response with a message and HTTP status code.
         """
         try:
-            # Verify token (uncomment if token authentication is required)
-            # token = request.headers.get("Authorization")
-            # if not token:
-            #     return {"message": "Access denied. Token required."}, 401
+            #check token
+            token_check = check_token(request.headers.get("Authorization"))
+            if token_check:
+                return token_check
 
             # Import the User model and retrieve the user
             from models.user_model import User

@@ -3,7 +3,10 @@ from flask import request
 from utils.errors.input.error_input_string import create_error_string
 from services.db.users.db_op_auth import get_user_by_email, add_new_user
 from bcrypt import hashpw, gensalt, checkpw
-
+import jwt
+from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
 
 class Auth(Resource):
     def post(self):
@@ -69,6 +72,7 @@ class Auth(Resource):
 
         except Exception as e:
             # Return a generic 500 Internal Server Error response
+            print(e)
             return {"message": "An unexpected error occurred. Please try again later."}, 500
 
 
@@ -121,7 +125,7 @@ class Auth(Resource):
         inputs_error = self.validate_inputs(fields)
         if inputs_error:
             return {"message": inputs_error}, 400
-        
+
         # check if user alredy exist
         from models.user_model import User
         user: User | None = get_user_by_email(data["email"])
@@ -132,4 +136,21 @@ class Auth(Resource):
         if not checkpw(data["password"].encode('utf-8'), user.password.encode('utf-8')):
             return {"message": "Invalid credentials. Please check your password and try again."}, 401
         
-        return {"message": "User logged in", "user": user.to_dict()}, 200
+        # get new token for 3 hours
+        token = self.get_new_token(user.email, user.user_id)
+
+        return {"message": "User logged in", "user": user.to_dict(), "token": token}, 200
+    
+
+    def get_new_token(self, email, user_id):
+        """Generate token for 3 hours and return it."""
+        # Generate JWT token
+        payload = {
+            "user_id": user_id,
+            "email": email,
+            "exp": datetime.utcnow() + timedelta(hours=3)  # Token expires in 3 hour
+        }
+        load_dotenv()
+        jwt_secret_key = os.getenv("JWT_SECRET_KEY")
+        token = jwt.encode(payload, jwt_secret_key, algorithm="HS256")
+        return token

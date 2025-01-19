@@ -9,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
 
     # Relationship to the Group model (for groups the user administers)
-    groups = db.relationship('Group', backref='admin', lazy=True)
+    #groups = db.relationship('Group', backref='admin', lazy=True)
 
     def __repr__(self):
         return f"<User user_id={self.user_id}, first_name={self.first_name}, last_name={self.last_name}, email={self.email}>"

@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import request
 from services.db.users.db_op_user_by_id import get_user_by_user_id, change_user_col
-from utils.errors.input.user.error_input_string import create_error_string
+from utils.errors.input.error_input_string import create_error_string
 from bcrypt import hashpw, gensalt
 
 

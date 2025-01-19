@@ -42,7 +42,7 @@ Handles user signup and login based on the `action` query parameter.
 
 #### Responses:
 - **201 Created** (for `signup`): If successful, returns a success message with the user's email.
-- **200 OK** (for `login`): If successful, returns a success message with the user's data.
+- **200 OK** (for `login`): If successful, returns a success message with the user's data and token.
 - **400 Bad Request**: If the `action` parameter is missing or invalid. If required fields are missing or invalid.
 - **401 Unauthorized**: If the email or password provided during `login` is incorrect.
 - **409 Conflict**: If the email provided during `signup` already exists.
@@ -56,8 +56,12 @@ Retrieves a specific user by their unique `user_id` (requires authentication).
 #### URL Parameters:
 - `user_id` (integer): The unique identifier of the user to retrieve.
 
+#### Headers:
+- `Authorization`: Bearer <your_token_here>.
+
 #### Responses:
 - **200 OK**: If the user exists, returns the user data.
+- **401 Unauthorized**: Token error.
 - **404 Not Found**: If the user does not exist.
 - **500 Internal Server Error**: If an unexpected error occurs.
 
@@ -68,6 +72,9 @@ Updates a specific user's information by their `user_id` (requires token).
 
 #### URL Parameters:
 - `user_id` (integer): The unique identifier of the user to update.
+
+#### Headers:
+- `Authorization`: Bearer <your_token_here>.
 
 #### Request Body:
 - `input_type` (string): The type of information to update. It can be one of the following:
@@ -80,6 +87,7 @@ Updates a specific user's information by their `user_id` (requires token).
 #### Responses:
 - **200 OK**: If the update is successful, returns the updated user data.
 - **400 Bad Request**: If the request body contains invalid data or required fields are missing.
+- **401 Unauthorized**: Token error.
 - **404 Not Found**: If the user does not exist.
 - **500 Internal Server Error**: If an unexpected error occurs.
 
@@ -124,11 +132,13 @@ Updates a specific user's information by their `user_id` (requires token).
 - **GET /api/users/<int:user_id>**
     ```bash
     GET /api/users/1
+    Authorization: Bearer <your_token_here>
     ```
 
 - **PATCH /api/users/<int:user_id>**
     ```bash
     PATCH /api/users/1
+    Authorization: Bearer <your_token_here>
     Content-Type: application/json
 
     {
@@ -139,6 +149,7 @@ Updates a specific user's information by their `user_id` (requires token).
 
     ```bash
     PATCH /api/users/1
+    Authorization: Bearer <your_token_here>
     Content-Type: application/json
 
     {
@@ -149,6 +160,7 @@ Updates a specific user's information by their `user_id` (requires token).
 
     ```bash
     PATCH /api/users/1
+    Authorization: Bearer <your_token_here>
     Content-Type: application/json
 
     {
@@ -159,6 +171,7 @@ Updates a specific user's information by their `user_id` (requires token).
 
     ```bash
     PATCH /api/users/1
+    Authorization: Bearer <your_token_here>
     Content-Type: application/json
 
     {

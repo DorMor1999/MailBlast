@@ -14,6 +14,7 @@ class UserById(Resource):
         This function simulates the retrieval of a user by their unique identifier (`user_id`).
         If the user does not exist, an appropriate error message is returned with a 404 status code.
         In case of an unexpected error during the process, a 500 status code is returned.
+        Token error returns 401 status code and message.
 
         Args:
             user_id (int): The unique identifier of the user to be retrieved.
@@ -48,6 +49,7 @@ class UserById(Resource):
         This method checks if the user exists in the database, validates 
         the provided data, and updates the specified fields. 
         Returns appropriate responses for success, invalid input, or errors.
+        Token error returns 401 status code and message.
         
         Args:
             user_id (int): The unique identifier of the user to update.

@@ -11,9 +11,6 @@ class Group(db.Model):
      # Relationship to the User model (for the group admin)
     group_admin = db.relationship('User', backref='admin_groups', lazy=True)
 
-    # Relationship to the Customer model through the group_customer association table
-    customers = db.relationship('Customer', backref='group', lazy=True)
-
     def __repr__(self):
         return (f"<Group group_id={self.group_id}, "
                 f"group_admin_id={self.group_admin_id}, "

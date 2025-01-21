@@ -30,15 +30,17 @@ def password_input(input: str) -> bool:
 def validate_input(input: str, check_type: str) -> bool:
     """
     Validates the input based on the specified check_type.
-    - "first name": Calls not_empty_input to check if the input is not empty.
-    - "last name": Calls not_empty_input to check if the input is not empty.
+    - "first_name": Calls not_empty_input to check if the input is not empty.
+    - "last_name": Calls not_empty_input to check if the input is not empty.
+    - "group_name": Calls not_empty_input to check if the input is not empty.
+    - "group_description": Calls not_empty_input to check if the input is not empty.
     - "email": Calls email_input to check if the input is a valid email.
     - "password": Calls password_input to check if the input is a valid password (min 6 characters).
     
     Returns True if the input passes the specified validation, otherwise False.
     If an invalid check_type is provided, returns False.
     """
-    if check_type == "first_name" or check_type == "last_name":
+    if check_type == "first_name" or check_type == "last_name" or check_type == "group_name" or check_type == "group_description":
         return not_empty_input(input)
     elif check_type == "email":
         return email_input(input)

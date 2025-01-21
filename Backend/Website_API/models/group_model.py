@@ -7,16 +7,15 @@ class Group(db.Model):
     group_name = db.Column(db.String(120), nullable=False)
     group_description = db.Column(db.String(300), nullable=False)
     created_at = db.Column(db.Date, nullable=False)
-
-     # Relationship to the User model (for the group admin)
-    group_admin = db.relationship('User', backref='admin_groups', lazy=True)
+    created_at_time = db.Column(db.Time, nullable=False)  
 
     def __repr__(self):
         return (f"<Group group_id={self.group_id}, "
                 f"group_admin_id={self.group_admin_id}, "
                 f"group_name='{self.group_name}', "
                 f"group_description='{self.group_description}', "
-                f"created_at={self.created_at}>")
+                f"created_at={self.created_at}, "
+                f"created_at_time={self.created_at_time}>")
 
     def to_dict(self):
         return {
@@ -24,5 +23,6 @@ class Group(db.Model):
             'group_admin_id': self.group_admin_id,
             'group_name': self.group_name,
             'group_description': self.group_description,
-            'created_at': self.created_at.isoformat() if self.created_at else None
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'created_at_time': self.created_at_time.isoformat() if self.created_at_time else None
         }

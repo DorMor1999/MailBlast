@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 def add_new_group(group_admin_id: int, group_name: str, group_description: str) -> None:
     """
@@ -21,7 +21,8 @@ def add_new_group(group_admin_id: int, group_name: str, group_description: str) 
         group_admin_id=group_admin_id,
         group_name=group_name,
         group_description=group_description,
-        created_at=date.today()
+        created_at=date.today(),
+        created_at_time=datetime.now().time()
     )
     db.session.add(new_group)
     db.session.commit()

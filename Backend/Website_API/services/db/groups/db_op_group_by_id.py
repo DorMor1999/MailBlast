@@ -9,4 +9,4 @@ def get_group_by_group_id(group_id: int):
         Group | None: The group object if found, otherwise None.
     """
     from models.group_model import Group
-    return Group.query.get(group_id)
+    return Group.query.get(group_id).to_dict()

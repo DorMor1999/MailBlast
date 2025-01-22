@@ -93,6 +93,23 @@ Updates a specific user's information by their `user_id` (requires token).
 
 ---
 
+### 5. **DELETE /api/users/<int:user_id>**
+Deletes a specific user by their unique `user_id` (requires token).
+
+#### URL Parameters:
+- `user_id` (integer): The unique identifier of the user to delete.
+
+#### Headers:
+- `Authorization`: Bearer <your_token_here>.
+
+#### Responses:
+- **200 OK**: If the user is successfully deleted, returns a success message.
+- **401 Unauthorized**: Token error.
+- **404 Not Found**: If the user does not exist.
+- **500 Internal Server Error**: If an unexpected error occurs.
+
+---
+
 ## Example Requests
 
 - **GET /api/users/?action=list**
@@ -179,6 +196,14 @@ Updates a specific user's information by their `user_id` (requires token).
       "input": "newPassword123"
     }
     ```
+
+- **DELETE /api/users/<int:user_id>**
+    ```bash
+    DELETE /api/users/1
+    Authorization: Bearer <your_token_here>
+    ```
+
+---
 
 
 

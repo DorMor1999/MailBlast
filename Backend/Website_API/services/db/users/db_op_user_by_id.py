@@ -32,3 +32,21 @@ def change_user_col(user_id: int, new_input: str, input_type: str):
         db.session.commit()
         return user
     return None
+
+def delete_user_by_user_id(user_id: int):
+    """
+    This function deletes a user from the database by their user_id.
+    It checks if the user exists and then deletes them, committing the changes to the database.
+    If the user is not found, it returns a 404 error message.
+    """
+    from models.user_model import User, db
+    # Find the user by user_id
+    user_to_delete = User.query.get(user_id)
+
+    if user_to_delete:
+        # Delete the user
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        return {"message": "User successfully deleted"}, 200
+    else:
+        return {"message": "User not found"}, 404

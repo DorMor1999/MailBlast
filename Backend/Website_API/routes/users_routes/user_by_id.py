@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask import request
-from services.db.users.db_op_user_by_id import get_user_by_user_id, change_user_col
+from services.db.users.db_op_user_by_id import get_user_by_user_id, change_user_col, delete_user_by_user_id
 from utils.errors.input.error_input_string import create_error_string
 from bcrypt import hashpw, gensalt
 from services.token.token_op import check_token
@@ -40,6 +40,30 @@ class UserById(Resource):
 
         except Exception as e:
             return {"message": "An unexpected error occurred."}, 500
+    
+
+    def delete(self, user_id: int):
+        """
+        Handles the deletion of a user based on their user_id.
+
+        This method:
+        1. Validates the authorization token provided in the request headers.
+        2. If the token is valid, it proceeds to delete the user from the database using the user_id.
+        3. Returns a success message if the deletion is successful.
+        4. Returns an error message if the token is invalid or if an unexpected error occurs during the process.
+        """
+        try:
+            #check token
+            token_check = check_token(request.headers.get("Authorization"))
+            if token_check:
+                return token_check
+
+            # This function will delete the user based on the provided user_id, and return the appropriate success or error message
+            return delete_user_by_user_id(user_id)
+
+        except Exception as e:
+            return {"message": "An unexpected error occurred."}, 500
+
 
 
     def patch(self, user_id: int):

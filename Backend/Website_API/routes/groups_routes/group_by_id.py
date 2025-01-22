@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask import request
-from services.db.groups.db_op_group_by_id import get_group_by_group_id, change_group_by_group_id
+from services.db.groups.db_op_group_by_id import get_group_by_group_id, change_group_by_group_id, delete_group_by_group_id
 from services.token.token_op import check_token
 from utils.errors.input.error_input_string import create_error_string
 
@@ -86,6 +86,37 @@ class GroupById(Resource):
             return {"message": "The updated group", "group": group}, 200
         except Exception as e:
             # Return a generic 500 Internal Server Error response
+            print(e)
+            return {"message": "An unexpected error occurred. Please try again later."}, 500
+    
+
+    def delete(self, group_id: int):
+        """
+        Handles the HTTP DELETE request to delete a group by its `group_id`.
+
+        This function performs the following steps:
+        1. Checks the authorization token in the request header.
+        2. If the token is invalid or not provided, an error response is returned.
+        3. Calls the `delete_group_by_group_id` function to delete the group with the given `group_id`.
+        4. If successful, the group is deleted and an appropriate message is returned.
+        5. In case of any errors during the process, a generic error response is returned.
+
+        Args:
+            group_id (int): The ID of the group to be deleted.
+
+        Returns:
+            dict: A response dictionary with a success message or an error message.
+        """
+        try:
+            # Step 1: Check token for authorization
+            token_check = check_token(request.headers.get("Authorization"))
+            if token_check:
+                return token_check
+            
+            # Step 2: Call the delete function to remove the group from the database
+            return delete_group_by_group_id(group_id)
+        except Exception as e:
+            # Step 3: Handle any exceptions by logging and returning a generic error response
             print(e)
             return {"message": "An unexpected error occurred. Please try again later."}, 500
         

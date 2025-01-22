@@ -85,19 +85,6 @@ Deletes a group by its ID.
 - `404`: Group not found.
 - `500`: Unexpected error.
 
-## Models
-
-### Group
-- `group_id`: Integer, primary key.
-- `group_name`: String, name of the group.
-- `group_description`: String, description of the group.
-- `group_admin_id`: Integer, foreign key referring to the admin user.
-
-### User
-- `user_id`: Integer, primary key.
-- `username`: String, name of the user.
-- `email`: String, email address of the user.
-
 ## Error Handling
 The API provides meaningful error messages for different failure cases, such as missing parameters, invalid authentication tokens, or non-existent users and groups.
 

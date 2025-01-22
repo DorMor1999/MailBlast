@@ -1,4 +1,5 @@
 from app import db
+from models.user_model import User
 
 class Group(db.Model):
     __tablename__ = 'groups'  # Name of the table in the database
@@ -8,6 +9,9 @@ class Group(db.Model):
     group_description = db.Column(db.String(300), nullable=False)
     created_at = db.Column(db.Date, nullable=False)
     created_at_time = db.Column(db.Time, nullable=False)  
+    
+    # Relationship with User
+    user = db.relationship('User', backref='groups', lazy=True)
 
     def __repr__(self):
         return (f"<Group group_id={self.group_id}, "

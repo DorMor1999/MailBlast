@@ -1,4 +1,5 @@
 from app import db
+from models.group_model import Group
 
 class Customer(db.Model):
     __tablename__ = 'customers'  # Name of the table in the database
@@ -7,9 +8,9 @@ class Customer(db.Model):
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=False)
-    country = db.Column(db.String(120))
-    city = db.Column(db.String(120))
-    birthday = db.Column(db.Date)
+    country = db.Column(db.String(120), nullable=True)
+    city = db.Column(db.String(120), nullable=True)
+    birthday = db.Column(db.Date, nullable=True)
 
     # Relationship to the Group model (for the customer's group)
     group = db.relationship('Group', backref='customers', lazy=True)

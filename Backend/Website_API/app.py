@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from routes.users_routes.users_routes_resources import init_users_routes_resources
 from routes.groups_routes.groups_routes_resources import init_groups_routes_resources
+from routes.customers_routes.customers_routes_resources import init_customers_routes_resources
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -30,6 +31,8 @@ init_users_routes_resources(api)
 #group resources
 init_groups_routes_resources(api)
 
+#customers resources
+init_customers_routes_resources(api)
 
 if __name__ == "__main__":
     app.run(debug=True)

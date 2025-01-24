@@ -1,6 +1,7 @@
 import jwt
 from dotenv import load_dotenv
 import os
+from datetime import datetime, timedelta
 
 def check_token(token: str):
     """
@@ -25,3 +26,17 @@ def check_token(token: str):
         return {"message": "Token has expired."}, 401
     except jwt.InvalidTokenError:
         return {"message": "Invalid token."}, 401
+    
+
+def get_new_token(email: str, user_id: int)-> str:
+        """Generate token for 3 hours and return it."""
+        # Generate JWT token
+        payload = {
+            "user_id": user_id,
+            "email": email,
+            "exp": datetime.utcnow() + timedelta(hours=3)  # Token expires in 3 hour
+        }
+        load_dotenv()
+        jwt_secret_key = os.getenv("JWT_SECRET_KEY")
+        token = jwt.encode(payload, jwt_secret_key, algorithm="HS256")
+        return token

@@ -14,8 +14,7 @@ class Groups(Resource):
         1. Validates the token from the `Authorization` header to ensure the user is authenticated.
         2. Parses and validates the JSON payload in the request body.
         3. Checks if the group admin (user) exists in the database using the provided `group_admin_id`.
-        4. Adds the group to the database if all validations pass and group with the same administrator ID, name, and 
-        description not exist.
+        4. Adds the group to the database if all validations pass and group with the same administrator ID and name not exist.
         5. Returns a success message with the group details or an error message with the appropriate status code.
 
         Returns:

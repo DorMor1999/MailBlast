@@ -4,8 +4,8 @@ def add_new_group(group_admin_id: int, group_name: str, group_description: str) 
     """
     Adds a new group to the database and returns its details as a dictionary.
 
-    This function checks if a group with the same administrator ID, name, and 
-    description already exists in the database. If such a group exists, it 
+    This function checks if a group with the same administrator ID and name
+    already exists in the database. If such a group exists, it 
     does not create a new one and returns an error. Otherwise, it creates 
     a new group, saves it to the database, and returns the group's details.
 
@@ -25,16 +25,15 @@ def add_new_group(group_admin_id: int, group_name: str, group_description: str) 
     """
     from models.group_model import Group, db
 
-    # Check if a group with the same admin ID, name, and description already exists
+    # Check if a group with the same admin ID and name already exists
     existing_group = Group.query.filter_by(
         group_admin_id=group_admin_id,
-        group_name=group_name,
-        group_description=group_description
+        group_name=group_name
     ).first()
 
     if existing_group:
         # Handle the case where the group already exists
-        return {"message": "Group with the same admin_id, name, and description already exists."}
+        return {"message": "Group with the same admin_id and name already exists."}
 
     new_group = Group(
         group_admin_id=group_admin_id,

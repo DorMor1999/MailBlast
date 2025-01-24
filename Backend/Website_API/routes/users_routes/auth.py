@@ -29,9 +29,9 @@ class Auth(Resource):
 
         Returns:
             - 201 Created:
-                - If 'signup' is successful, returns a success message with the user's email.
+                - If 'signup' is successful, returns a success message with the user's data and token.
             - 200 OK:
-                - If 'login' is successful, returns a success message with the user's data.
+                - If 'login' is successful, returns a success message with the user's data and token.
             - 400 Bad Request:
                 - If the 'action' query parameter is missing or invalid.
                 - If required input fields are missing or invalid.
@@ -102,10 +102,13 @@ class Auth(Resource):
         # Hash the password
         hashed_password = hashpw(data["password"].encode('utf-8'), gensalt()).decode('utf-8')
 
-        # adding new user to DB
-        add_new_user(data["first_name"], data["last_name"], data["email"], hashed_password) 
+        # adding new user to DB and get that user dict
+        user = add_new_user(data["first_name"], data["last_name"], data["email"], hashed_password) 
+
+        # get new token for 3 hours
+        token = get_new_token(user['email'], user['user_id'])
        
-        return {"message": "User signed up", "user": {"email": data["email"]}}, 201
+        return {"message": "User signed up", "user": user, 'token': token}, 201
 
 
     def handle_login(self, data):

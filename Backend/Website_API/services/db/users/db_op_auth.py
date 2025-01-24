@@ -12,9 +12,9 @@ def get_user_by_email(email: str):
     return User.query.filter_by(email=email).first()
 
 
-def add_new_user(first_name: str, last_name: str, email: str, password: str) -> None:
+def add_new_user(first_name: str, last_name: str, email: str, password: str) -> dict:
     """
-    Adds a new user to the database.
+    Adds a new user to the database and return a dict of him.
 
     Args:
         first_name (str): The first name of the user.
@@ -23,7 +23,7 @@ def add_new_user(first_name: str, last_name: str, email: str, password: str) -> 
         password (str): The password for the user's account.
 
     Returns:
-        None: This function does not return a value but commits the new user to the database.
+        dict: dict that describe the user.
     
     Side Effects:
         - Adds a new user record to the database.
@@ -36,4 +36,5 @@ def add_new_user(first_name: str, last_name: str, email: str, password: str) -> 
     new_user = User(first_name=first_name, last_name=last_name, email=email, password=password)
     db.session.add(new_user)
     db.session.commit()
+    return new_user.to_dict()
     

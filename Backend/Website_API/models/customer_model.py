@@ -34,6 +34,5 @@ class Customer(db.Model):
             'country': self.country,
             'city': self.city,
             'birthday': self.birthday.isoformat() if self.birthday else None,
-            'group_id': self.group_id,
-            'group': self.group.to_dict() if self.group else None  # Include group details if needed
+            'group_id': self.group_id
         }

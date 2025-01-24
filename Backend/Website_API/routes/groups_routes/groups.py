@@ -14,11 +14,12 @@ class Groups(Resource):
         1. Validates the token from the `Authorization` header to ensure the user is authenticated.
         2. Parses and validates the JSON payload in the request body.
         3. Checks if the group admin (user) exists in the database using the provided `group_admin_id`.
-        4. Adds the group to the database if all validations pass.
+        4. Adds the group to the database if all validations pass and group with the same administrator ID, name, and 
+        description not exist.
         5. Returns a success message with the group details or an error message with the appropriate status code.
 
         Returns:
-            dict: A JSON response with a message and additional data if applicable.
+            dict: A JSON response with a message and group data.
             int: HTTP status code indicating the result of the operation.
         """
         try:
@@ -41,13 +42,12 @@ class Groups(Resource):
             if not user:
                 return {"message": f"User with user_id {data.get("group_admin_id")} does not exist."}, 404
             
-            #add group to db
-            add_new_group(data.get("group_admin_id"),  data.get("group_name"), data.get("group_description"))
+            #add group to db and get this group
+            group = add_new_group(data.get("group_admin_id"),  data.get("group_name"), data.get("group_description"))
+            if 'message' in group:
+                return group, 400
             
-            return {"message": "Group created", "group": {
-                "group_name": data.get("group_name"),
-                "group_description": data.get("group_description")
-            }}, 201
+            return {"message": "Group created", "group": group}, 201
         except Exception as e:
             # Return a generic 500 Internal Server Error response
             print(e)

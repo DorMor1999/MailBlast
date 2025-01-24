@@ -43,3 +43,57 @@ def add_new_customer(data: dict):
     db.session.add(new_customer)
     db.session.commit()
     return new_customer.to_dict()
+
+
+def add_new_customers(customers_list: list, group_id: int) -> dict:
+    """
+    Adds a list of new customers to the database for the given group_id.
+
+    This function accepts a list of customer dictionaries and adds each customer
+    to the database if no existing customer with the same email and group_id is found.
+    It returns a dict with list, including added customers and any errors encountered.
+
+    Args:
+        customers_list (list): A list of dictionaries, each containing customer details:
+            - 'first_name' (str): The customer's first name.
+            - 'last_name' (str): The customer's last name.
+            - 'email' (str): The customer's email address.
+            - 'country' (str, optional): The customer's country of residence.
+            - 'city' (str, optional): The customer's city of residence.
+            - 'birthday' (str, optional): The customer's birthday in the format 'YYYY-MM-DD'.
+        group_id (int): The ID of the group to which the customers belong.
+
+    Returns:
+        dict: A dict with list inside, each one representing the result for a customer. or error dict 
+    """
+    from models.customer_model import Customer, db
+
+    results = []
+
+    for customer_data in customers_list:
+        # Check if a customer with the same email and group_id already exists
+        existing_customer = Customer.query.filter_by(
+            email=customer_data['email'], group_id=group_id
+        ).first()
+
+        if existing_customer:
+            return {'message': f'Customer with email {customer_data['email']} already exists in the group.'}
+
+        # Create and add the new customer
+        new_customer = Customer(
+            group_id=group_id,
+            first_name=customer_data['first_name'],
+            last_name=customer_data['last_name'],
+            email=customer_data['email'],
+            country=customer_data.get('country', None),
+            city=customer_data.get('city', None),
+            birthday=customer_data.get('birthday', None)
+        )
+        db.session.add(new_customer)
+
+        # Append success result to results
+        results.append(new_customer.to_dict())
+
+    # Commit all changes at once
+    db.session.commit()
+    return {"customers": results}

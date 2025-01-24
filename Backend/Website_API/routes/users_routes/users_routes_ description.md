@@ -41,7 +41,7 @@ Handles user signup and login based on the `action` query parameter.
   - `password` (string): The user's password (required).
 
 #### Responses:
-- **201 Created** (for `signup`): If successful, returns a success message with the user's email.
+- **201 Created** (for `signup`): If successful, returns a success message with the user's data and token.
 - **200 OK** (for `login`): If successful, returns a success message with the user's data and token.
 - **400 Bad Request**: If the `action` parameter is missing or invalid. If required fields are missing or invalid.
 - **401 Unauthorized**: If the email or password provided during `login` is incorrect.

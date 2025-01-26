@@ -81,9 +81,11 @@ class Groups(Resource):
             str | None: An error message string if validation fails, otherwise None.
         """
         # validate data
-        if not data or not data.get("group_admin_id") or not data.get("group_name") or not data.get("group_description"):
-            return {"message": "Invalid data. Data is required!"}, 400
+        if not data:
+            return "Invalid data. Data is required!"
 
+        if not data.get("group_admin_id"):
+            return "Invalid data. group_admin_id is required!"
         # check inputs
         fields = [
             {"input_type": "group_name", "input": data.get("group_name")},

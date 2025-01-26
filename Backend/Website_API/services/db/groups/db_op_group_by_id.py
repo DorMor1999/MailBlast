@@ -39,7 +39,7 @@ def change_group_by_group_id(group_id: int, group_name: str, group_description: 
 
     # Step 2: Check if the group exists
     if not group:
-        return {"error": "Group not found for the given group_id."}, 404
+        return {"message": "Group not found for the given group_id."}, 404
     
     # Step 3: Update the group's name and description
     group.group_name = group_name
@@ -75,7 +75,7 @@ def delete_group_by_group_id(group_id: int):
 
     # Step 2: Check if the group exists
     if not group:
-        return {"error": "Group not found for the given group_id."}, 404
+        return {"message": "Group not found for the given group_id."}, 404
 
     # Step 3: Delete the group from the database
     db.session.delete(group)

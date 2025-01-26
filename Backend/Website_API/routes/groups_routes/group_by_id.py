@@ -79,7 +79,7 @@ class GroupById(Resource):
             
             #check if not exist get in else change in db and move foward
             group = change_group_by_group_id(group_id, data.get("group_name"), data.get("group_description"))
-            if isinstance(group, tuple) and "error" in group[0]:
+            if isinstance(group, tuple) and "message" in group[0]:
                 return group
             
             # Return the response with the updated group
@@ -150,8 +150,8 @@ class GroupById(Resource):
             str | None: An error message string if validation fails, otherwise None.
         """
         # validate data
-        if not data or not data.get("group_name") or not data.get("group_description"):
-            return {"message": "Invalid data. Data is required!"}, 400
+        if not data:
+            return "Invalid data. Data is required!"
 
         # check inputs
         fields = [

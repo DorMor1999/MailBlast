@@ -41,11 +41,11 @@ def validate_input(input: str, check_type: str) -> bool:
     If an invalid check_type is provided, returns False.
     """
     if check_type == "first_name" or check_type == "last_name" or check_type == "group_name" or check_type == "group_description":
-        return not_empty_input(input)
+        return input is not None and type(input) is str and not_empty_input(input)
     elif check_type == "email":
-        return email_input(input)
+        return input is not None and type(input) is str and email_input(input)
     elif check_type == "password":
-        return password_input(input)
+        return input is not None and type(input) is str and password_input(input)
     
     # Returns False if the check_type doesn't match any of the expected types
     return False

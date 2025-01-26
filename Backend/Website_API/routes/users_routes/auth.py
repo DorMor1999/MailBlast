@@ -81,7 +81,7 @@ class Auth(Resource):
     def handle_signup(self, data):
         """Handle user signup logic."""
         # validate data
-        if not data or not data.get("first_name") or not data.get("last_name") or not data.get("email") or not data.get("password"):
+        if not data:
             return {"message": "Invalid data. Data is required!"}, 400
 
         # check inputs
@@ -114,7 +114,7 @@ class Auth(Resource):
     def handle_login(self, data):
         """Handle user login logic."""
         # validate data
-        if not data or not data.get("email") or not data.get("password"):
+        if not data:
             return {"message": "Invalid data. Data is required!"}, 400
 
         # check inputs

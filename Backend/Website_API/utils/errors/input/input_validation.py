@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from .countries_and_cities.countries import countries
 from .countries_and_cities.cities import cities
 
@@ -50,7 +51,47 @@ def check_city(input: str) -> bool:
     Returns:
         bool: True if the input is in `cities`, False otherwise.
     """
-    return input in cities 
+    return input in cities
+
+def check_date_format(date_str: str) -> bool:
+    """
+    Checks if the given input is a valid date in the format YYYY-MM-DD, 
+    which is required for storing in a SQLAlchemy db.Date column.
+
+    Args:
+        date_str (str): The date string to check.
+
+    Returns:
+        bool: True if the input is a valid date in YYYY-MM-DD format, False otherwise.
+    """
+    try:
+        # Attempt to parse the string into a datetime object
+        datetime.strptime(date_str, "%Y-%m-%d").date()
+        return True
+    except (ValueError, TypeError):
+        return False 
+
+def check_birthday(date_str: str) -> bool:
+    """
+    Checks if the given input is a valid date in the format YYYY-MM-DD and that the date is not in the future.
+    
+    Args:
+        date_str (str): The date string to check.
+
+    Returns:
+        bool: True if the input is a valid date in YYYY-MM-DD format and not in the future, False otherwise.
+    """
+    try:
+        # Attempt to parse the string into a datetime object
+        parsed_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+
+        # Check if the parsed date is in the future
+        if parsed_date > datetime.today().date():
+            return False  # Date is in the future
+        
+        return True
+    except (ValueError, TypeError):
+        return False  # Invalid format or type
 
 def validate_input(input: str, check_type: str) -> bool:
     """
@@ -75,6 +116,8 @@ def validate_input(input: str, check_type: str) -> bool:
         return input is None or (input is not None and type(input) is str and check_country(input))
     elif check_type == "city":
         return input is None or (input is not None and type(input) is str and check_city(input))
+    elif check_type == "birthday":
+        return input is None or (input is not None and type(input) is str and check_birthday(input))
     
     # Returns False if the check_type doesn't match any of the expected types
     return False

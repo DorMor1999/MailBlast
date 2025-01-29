@@ -6,5 +6,6 @@ input_error_messages = {
     "email": "Invalid email format!",
     "password": "Password must be at least 6 characters long!",
     "country": "Invalid country!",
-    "city": "Invalid city!"
+    "city": "Invalid city!",
+    "birthday": "Invalid birthday!"
 }

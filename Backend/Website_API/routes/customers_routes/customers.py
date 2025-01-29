@@ -4,6 +4,7 @@ from services.token.token_op import check_token
 from utils.errors.input.error_input_string import create_error_string
 from services.db.groups.db_op_group_by_id import get_group_by_group_id
 from services.db.customers.db_op_customers import add_new_customer, add_new_customers
+from utils.converters.convert_str_to_date import convert_str_to_date
 
 class Customers(Resource):
     def post(self):
@@ -95,12 +96,17 @@ class Customers(Resource):
             return error
         
         #adding customers to DB 
-        customers = add_new_customers(data['customers'], data['customers'][0]["group_id"])
+        convert_customers = self.get_customers_after_covert(data['customers'])
+        customers = add_new_customers(convert_customers, data['customers'][0]["group_id"])
         if 'message' in customers.keys():
             return customers, 400
         
         return {"message": "All customers created", "customers": customers['customers']}, 201
         
+
+    def get_customers_after_covert(self, customers: list) -> list:
+        convert_customers = list(map(lambda customer: {**customer, "birthday": convert_str_to_date(customer["birthday"]) if customer["birthday"] is not None else None}, customers))
+        return convert_customers
 
             
     def check_data_list_customers(self, data):
@@ -164,6 +170,7 @@ class Customers(Resource):
             return {"message": "Group with that id dosn't found."}, 404  
         
         #adding customer to DB
+        data["birthday"] = None if data["birthday"] is None else convert_str_to_date(data["birthday"])
         customer = add_new_customer(data)
         if 'message' in customer.keys():
             return customer, 400
@@ -208,7 +215,8 @@ class Customers(Resource):
             {"input_type": "last_name", "input": data.get("last_name")},
             {"input_type": "email", "input": data.get("email")},
             {"input_type": "country", "input": data.get("country")},
-            {"input_type": "city", "input": data.get("city")}
+            {"input_type": "city", "input": data.get("city")},
+            {"input_type": "birthday", "input": data.get("birthday")}
         ]
 
         return self.validate_inputs(fields)

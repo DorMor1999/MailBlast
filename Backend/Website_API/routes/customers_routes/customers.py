@@ -157,6 +157,8 @@ class Customers(Resource):
             return {"message": inputs_error}, 400
         
         #check group_id
+        if not data.get("group_id") or type(data.get("group_id")) is not int:
+            return {"message": "Group id is reqired."}, 400
         group = get_group_by_group_id(data.get("group_id"))
         if not group:
             return {"message": "Group with that id dosn't found."}, 404  
@@ -197,7 +199,7 @@ class Customers(Resource):
             str | None: An error message string if validation fails, otherwise None.
         """
         # validate data
-        if not data or not data.get("group_id") or not data.get("first_name") or not data.get("last_name") or not data.get("email"):
+        if not data:
             return {"message": "Invalid data. Data is required!"}, 400
 
         # check inputs

@@ -206,7 +206,9 @@ class Customers(Resource):
         fields = [
             {"input_type": "first_name", "input": data.get("first_name")},
             {"input_type": "last_name", "input": data.get("last_name")},
-            {"input_type": "email", "input": data.get("email")}
+            {"input_type": "email", "input": data.get("email")},
+            {"input_type": "country", "input": data.get("country")},
+            {"input_type": "city", "input": data.get("city")}
         ]
 
         return self.validate_inputs(fields)

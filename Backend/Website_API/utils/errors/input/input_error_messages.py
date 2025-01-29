@@ -4,5 +4,7 @@ input_error_messages = {
     "group_name": "Group name cannot be empty!",
     "group_description": "Group description cannot be empty!",
     "email": "Invalid email format!",
-    "password": "Password must be at least 6 characters long!"
+    "password": "Password must be at least 6 characters long!",
+    "country": "Invalid country!",
+    "city": "Invalid city!"
 }

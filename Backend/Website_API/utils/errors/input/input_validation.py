@@ -1,4 +1,6 @@
 import re
+from .countries_and_cities.countries import countries
+from .countries_and_cities.cities import cities
 
 def not_empty_input(input: str) -> bool:
     """
@@ -25,7 +27,30 @@ def password_input(input: str) -> bool:
     Returns True if the password length is 6 or more characters, otherwise False.
     """
     return len(input) >= 6
+
+def check_country(input: str) -> bool:
+    """
+    Checks if the given input exists in the predefined `countries` set.
     
+    Args:
+        input (str): The country name to check.
+
+    Returns:
+        bool: True if the input is in `countries`, False otherwise.
+    """
+    return input in countries
+    
+def check_city(input: str) -> bool:
+    """
+    Checks if the given input exists in the predefined `cities` set.
+    
+    Args:
+        input (str): The city name to check.
+
+    Returns:
+        bool: True if the input is in `cities`, False otherwise.
+    """
+    return input in cities 
 
 def validate_input(input: str, check_type: str) -> bool:
     """
@@ -46,6 +71,10 @@ def validate_input(input: str, check_type: str) -> bool:
         return input is not None and type(input) is str and email_input(input)
     elif check_type == "password":
         return input is not None and type(input) is str and password_input(input)
+    elif check_type == "country":
+        return input is None or (input is not None and type(input) is str and check_country(input))
+    elif check_type == "city":
+        return input is None or (input is not None and type(input) is str and check_city(input))
     
     # Returns False if the check_type doesn't match any of the expected types
     return False

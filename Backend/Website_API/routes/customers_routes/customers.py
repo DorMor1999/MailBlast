@@ -124,7 +124,7 @@ class Customers(Resource):
             if inputs_error:
                 return {"message": inputs_error}, 400
             #check group_id
-            if the_group_id != customer["group_id"]:
+            if not customer["group_id"] or type(customer["group_id"]) is not int or the_group_id != customer["group_id"]:
                 return {"message": "All customers need to be with the same group_id."}, 400
             group = get_group_by_group_id(customer["group_id"])
             if not group:

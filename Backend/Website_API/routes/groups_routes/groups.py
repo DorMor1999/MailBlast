@@ -84,7 +84,7 @@ class Groups(Resource):
         if not data:
             return "Invalid data. Data is required!"
 
-        if not data.get("group_admin_id"):
+        if not data.get("group_admin_id") or type(data.get("group_admin_id")) is not int:
             return "Invalid data. group_admin_id is required!"
         # check inputs
         fields = [

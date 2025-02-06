@@ -1,5 +1,6 @@
 from app import db
 from models.group_model import Group
+from datetime import date
 
 class Customer(db.Model):
     __tablename__ = 'customers'  # Name of the table in the database
@@ -36,3 +37,17 @@ class Customer(db.Model):
             'birthday': self.birthday.isoformat() if self.birthday else None,
             'group_id': self.group_id
         }
+    
+    def to_dict_with_age(self):
+        """
+        Converts the Customer object to a dictionary, including an additional 'age' field.
+
+        Returns:
+            dict: A dictionary representation of the Customer object with age.
+        """
+        calculate_age = lambda b: (date.today().year - b.year - ((date.today().month, date.today().day) < (b.month, b.day))) if b else None
+        
+        my_dic = self.to_dict()
+        my_dic['age'] = calculate_age(self.birthday)
+        return my_dic
+    

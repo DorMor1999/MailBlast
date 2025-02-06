@@ -1,4 +1,4 @@
-def get_customers_of_group_by_group_id_sorted(group_id: int, sort: str, order: str, age: str) -> [dict]:
+def get_customers_of_group_by_group_id_sorted(group_id: int, sort: str, order: str, age: str) -> [dict]: # type: ignore
     """
     Retrieves customers of a specific group, sorted based on the specified field and order, 
     and optionally includes the 'age' field.

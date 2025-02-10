@@ -24,31 +24,31 @@ def change_group_by_group_id(group_id: int, group_name: str, group_description: 
 
     Returns:
         dict: A dictionary representation of the updated group if successful.
-        tuple: An error message and HTTP status code (404) if the group is not found.
-
-    Raises:
-        SQLAlchemyError: If there is an issue with the database operation.
-
-    This function retrieves a group from the database by its ID, checks for its existence, 
-    updates the group's name and description, commits the changes, and returns the updated group as a dictionary. 
-    If the group is not found, it returns an error message and a 404 status code.
+        tuple: An error message and HTTP status code if an error occurs.
     """
-    
+
     from models.group_model import Group, db
+
     # Step 1: Query the group from the database by group_id
     group = Group.query.filter_by(group_id=group_id).first()
 
     # Step 2: Check if the group exists
     if not group:
         return {"message": "Group not found for the given group_id."}, 404
-    
-    # Step 3: Update the group's name and description
+
+    # Step 3: Check if another group with the same group_name and group_admin_id exists
+    existing_group = Group.query.filter_by(group_name=group_name, group_admin_id=group.group_admin_id).first()
+    if existing_group and existing_group.group_id != group_id:
+        return {"message": "A group with this name already exists under the same admin."}, 400
+
+    # Step 4: Update the group's name and description
     group.group_name = group_name
     group.group_description = group_description
 
-    # Step 4: Commit the changes to the database
+    # Step 5: Commit the changes to the database
     db.session.commit()
     return group.to_dict()
+
 
 
 def delete_group_by_group_id(group_id: int):

@@ -22,16 +22,25 @@ def change_user_col(user_id: int, new_input: str, input_type: str):
         input_type (str): The name of the column to be updated.
 
     Returns:
-        User | None: The updated user object if successful, otherwise None.
+        tuple: A dictionary with a message and an HTTP status code.
     """
     from models.user_model import User, db
-    
+
     user = User.query.get(user_id)
-    if user and hasattr(user, input_type):
+    if not user:
+        return {"message": "User not found"}, 404
+
+    if input_type == "email":
+        # Check if the email is already in use
+        if User.query.filter_by(email=new_input).first():
+            return {"message": "Email is already in use"}, 400
+
+    if hasattr(user, input_type):
         setattr(user, input_type, new_input)
         db.session.commit()
-        return user
-    return None
+        return {"message": "User updated successfully", "user": user.to_dict()}, 200
+
+    return {"message": f"Invalid field: {input_type}"}, 400
 
 def delete_user_by_user_id(user_id: int):
     """

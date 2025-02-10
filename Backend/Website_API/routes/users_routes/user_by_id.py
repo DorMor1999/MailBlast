@@ -103,13 +103,9 @@ class UserById(Resource):
             if data["input_type"] == 'password':
                 # Hash the password
                 data["input"] = hashpw(data["input"].encode('utf-8'), gensalt()).decode('utf-8')
-            
-            # Update the user in the database
-            change_user_col(user_id,  data["input"], data["input_type"])
 
-            # return success
-            return {"message": f"User {user_id} updated successfully", "updated_field": data["input_type"]}, 200
-
+            # Update the user in the database return
+            return change_user_col(user_id,  data["input"], data["input_type"])
         except Exception as e:
             # Catch unexpected errors and return a generic error message
             return {"message": "An error occurred while updating the user.", "error": str(e)}, 500

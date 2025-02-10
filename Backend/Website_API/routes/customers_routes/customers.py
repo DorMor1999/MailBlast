@@ -196,7 +196,7 @@ class Customers(Resource):
         Validates and processes the request payload.
 
         Steps:
-        1. Ensures all required fields (`group_admin_id`, `group_name`, and `group_description`) are present.
+        1. Ensures all required fields are present.
         2. Uses `validate_inputs` to check the validity of specific fields.
 
         Args:
